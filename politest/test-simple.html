@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정치 성향 테스트</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container test-container">
+        <!-- Header -->
+        <div class="test-header">
+            <div class="test-nav">
+                <button id="backButton" class="nav-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="test-info">
+                    <span>정치 성향 테스트</span>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progressText">1 / 15</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Section -->
+        <div class="question-section">
+            <div class="question-container">
+                <div class="question-card active">
+                    <div class="question-number" id="questionNumber">질문 1</div>
+                    <h2 class="question-text" id="questionText">질문을 로딩중입니다...</h2>
+                    
+                    <div class="answers-container" id="answersContainer">
+                        <!-- Answers will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Simple inline script to ensure it runs
+    console.log('Test script started');
+    
+    let currentQuestionIndex = 0;
+    let selectedQuestions = [];
+    let userAnswers = [];
+    
+    // Simple questions data
+    const simpleQuestions = [
+        {
+            question: "정부의 경제 개입에 대해 어떻게 생각하나요?",
+            answers: [
+                { text: "적극적으로 개입해야 한다", score: 2 },
+                { text: "필요에 따라 개입해야 한다", score: 1 },
+                { text: "시장에 맡겨야 한다", score: 0 }
+            ]
+        },
+        {
+            question: "사회 복지 정책에 대한 견해는?",
+            answers: [
+                { text: "대폭 확대해야 한다", score: 2 },
+                { text: "적정 수준을 유지해야 한다", score: 1 },
+                { text: "줄여야 한다", score: 0 }
+            ]
+        }
+    ];
+    
+    function initTest() {
+        console.log('Initializing test');
+        
+        // Load from localStorage or use simple data
+        const savedQuestions = localStorage.getItem('politest_questions');
+        if (savedQuestions) {
+            try {
+                selectedQuestions = JSON.parse(savedQuestions);
+                console.log('Loaded questions from localStorage:', selectedQuestions.length);
+            } catch (e) {
+                console.error('Error parsing saved questions:', e);
+                selectedQuestions = simpleQuestions;
+            }
+        } else {
+            console.log('No saved questions, using simple questions');
+            selectedQuestions = simpleQuestions;
+        }
+        
+        const savedAnswers = localStorage.getItem('politest_answers');
+        if (savedAnswers) {
+            try {
+                userAnswers = JSON.parse(savedAnswers);
+            } catch (e) {
+                userAnswers = [];
+            }
+        }
+        
+        const savedIndex = localStorage.getItem('politest_current_index');
+        if (savedIndex) {
+            currentQuestionIndex = parseInt(savedIndex) || 0;
+        }
+        
+        displayQuestion();
+        updateProgress();
+    }
+    
+    function displayQuestion() {
+        console.log('Displaying question:', currentQuestionIndex);
+        
+        if (currentQuestionIndex >= selectedQuestions.length) {
+            finishTest();
+            return;
+        }
+        
+        const question = selectedQuestions[currentQuestionIndex];
+        console.log('Current question:', question);
+        
+        // Update question number
+        const questionNumber = document.getElementById('questionNumber');
+        if (questionNumber) {
+            questionNumber.textContent = `질문 ${currentQuestionIndex + 1}`;
+        }
+        
+        // Update question text
+        const questionText = document.getElementById('questionText');
+        if (questionText && question) {
+            questionText.textContent = question.question;
+            console.log('Question text updated');
+        }
+        
+        // Update answers
+        const answersContainer = document.getElementById('answersContainer');
+        if (answersContainer && question && question.answers) {
+            answersContainer.innerHTML = '';
+            
+            question.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-btn';
+                button.textContent = answer.text;
+                button.onclick = () => selectAnswer(index, answer.score);
+                answersContainer.appendChild(button);
+            });
+            
+            console.log('Answers updated:', question.answers.length);
+        }
+    }
+    
+    function selectAnswer(answerIndex, score) {
+        console.log('Answer selected:', answerIndex, score);
+        
+        // Save answer
+        userAnswers[currentQuestionIndex] = {
+            questionIndex: currentQuestionIndex,
+            answerIndex: answerIndex,
+            score: score
+        };
+        
+        // Save to localStorage
+        localStorage.setItem('politest_answers', JSON.stringify(userAnswers));
+        
+        // Move to next question
+        currentQuestionIndex++;
+        localStorage.setItem('politest_current_index', currentQuestionIndex.toString());
+        
+        setTimeout(() => {
+            displayQuestion();
+            updateProgress();
+        }, 300);
+    }
+    
+    function updateProgress() {
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        
+        if (progressFill && selectedQuestions.length > 0) {
+            const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+            progressFill.style.width = `${Math.min(progress, 100)}%`;
+        }
+        
+        if (progressText && selectedQuestions.length > 0) {
+            const current = Math.min(currentQuestionIndex + 1, selectedQuestions.length);
+            const total = selectedQuestions.length;
+            progressText.textContent = `${current} / ${total}`;
+        }
+    }
+    
+    function finishTest() {
+        console.log('Test finished');
+        // Calculate simple result
+        const totalScore = userAnswers.reduce((sum, answer) => sum + answer.score, 0);
+        
+        localStorage.setItem('politest_result', JSON.stringify({
+            score: totalScore,
+            answers: userAnswers,
+            timestamp: Date.now()
+        }));
+        
+        window.location.href = 'result.html';
+    }
+    
+    function goBack() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            if (userAnswers.length > currentQuestionIndex) {
+                userAnswers.splice(currentQuestionIndex, 1);
+            }
+            localStorage.setItem('politest_current_index', currentQuestionIndex.toString());
+            localStorage.setItem('politest_answers', JSON.stringify(userAnswers));
+            displayQuestion();
+            updateProgress();
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, starting test');
+        initTest();
+    });
+    </script>
+</body>
+</html>
