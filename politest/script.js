@@ -246,12 +246,14 @@ function displayQuestion() {
     if (questionText && question && question.question) {
         const questionContent = question.question[currentLanguage] || question.question.ko || '질문을 불러올 수 없습니다.';
         questionText.textContent = questionContent;
+        questionText.style.display = 'block';
         console.log('Question text set:', questionContent);
     }
     
     // Clear and populate answers
     if (answersContainer && question && question.answers) {
         answersContainer.innerHTML = '';
+        answersContainer.style.display = 'block';
         
         question.answers.forEach((answer, index) => {
             const answerBtn = document.createElement('button');
