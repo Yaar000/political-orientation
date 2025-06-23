@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정치 성향 테스트 - 진행중</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dark.css" id="dark-theme" disabled>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container test-container">
+        <!-- Header -->
+        <div class="test-header">
+            <div class="test-nav">
+                <button id="backButton" class="nav-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="test-info">
+                    <span id="testTitle">정치 성향 테스트</span>
+                </div>
+                <button id="themeToggle" class="theme-btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progressText">1 / 15</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Section -->
+        <div class="question-section">
+            <div class="question-container" id="questionContainer">
+                <div class="question-card active" id="questionCard">
+                    <div class="question-number" id="questionNumber">질문 1</div>
+                    <h2 class="question-text" id="questionText">질문을 로딩중입니다...</h2>
+                    
+                    <div class="answers-container" id="answersContainer">
+                        <!-- Answers will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="loading-spinner">
+                    <i class="fas fa-cog fa-spin"></i>
+                </div>
+                <p id="loadingText">결과를 계산중입니다...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Confirmation Modal -->
+    <div class="modal-overlay" id="backModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">테스트를 종료하시겠습니까?</h3>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">지금까지의 진행상황이 사라집니다. 정말로 나가시겠습니까?</p>
+            </div>
+            <div class="modal-actions">
+                <button id="modalCancel" class="btn btn-secondary">계속하기</button>
+                <button id="modalConfirm" class="btn btn-primary">나가기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="i18n/ko.js"></script>
+    <script src="i18n/en.js"></script>
+    <script src="i18n/jp.js"></script>
+    <script src="i18n/cn.js"></script>
+    <script src="data/questions.js"></script>
+    <script src="data/results.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

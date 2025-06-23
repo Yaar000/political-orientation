@@ -1,0 +1,222 @@
+/* Dark Mode Styles */
+body.dark-mode {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+}
+
+.dark-mode .language-selector select {
+    background: rgba(30, 30, 30, 0.9);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .language-selector select:hover {
+    background: rgba(30, 30, 30, 1);
+}
+
+.dark-mode .theme-btn {
+    background: rgba(30, 30, 30, 0.9);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .theme-btn:hover {
+    background: rgba(30, 30, 30, 1);
+}
+
+.dark-mode .intro-card {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .intro-card h2 {
+    color: #e0e0e0;
+}
+
+.dark-mode .intro-card p {
+    color: #b0b0b0;
+}
+
+.dark-mode .name-input-group input {
+    background: rgba(30, 30, 30, 0.9);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .name-input-group input:focus {
+    background: rgba(30, 30, 30, 1);
+    border-color: #667eea;
+}
+
+.dark-mode .name-input-group input::placeholder {
+    color: #888;
+}
+
+.dark-mode .result-type {
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .result-type:hover {
+    background: rgba(30, 30, 30, 1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .result-type h4 {
+    color: #e0e0e0;
+}
+
+.dark-mode .result-type p {
+    color: #b0b0b0;
+}
+
+/* Test Page Dark Mode */
+.dark-mode .test-header {
+    background: rgba(30, 30, 30, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .test-info span {
+    color: #e0e0e0;
+}
+
+.dark-mode .progress-bar {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .progress-text {
+    color: #667eea;
+}
+
+.dark-mode .question-card {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .question-text {
+    color: #e0e0e0;
+}
+
+.dark-mode .answer-btn {
+    background: rgba(40, 40, 40, 0.8);
+    color: #e0e0e0;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .answer-btn:hover {
+    background: rgba(102, 126, 234, 0.2);
+    border-color: #667eea;
+}
+
+/* Result Page Dark Mode */
+.dark-mode .result-card {
+    background: rgba(30, 30, 30, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .result-description {
+    color: #b0b0b0;
+}
+
+.dark-mode .score-label {
+    color: #b0b0b0;
+}
+
+.dark-mode .share-btn {
+    background: rgba(40, 40, 40, 0.9);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .share-btn:hover {
+    background: rgba(40, 40, 40, 1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .share-btn.kakao {
+    color: #ffcd00;
+}
+
+.dark-mode .share-btn.line {
+    color: #00c300;
+}
+
+.dark-mode .share-btn.whatsapp {
+    color: #25d366;
+}
+
+.dark-mode .share-btn.wechat {
+    color: #1aad19;
+}
+
+.dark-mode .share-btn.copy {
+    color: #667eea;
+}
+
+.dark-mode .other-type {
+    background: rgba(40, 40, 40, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .other-type:hover {
+    background: rgba(40, 40, 40, 0.95);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Modal Dark Mode */
+.dark-mode .modal-content {
+    background: rgba(30, 30, 30, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .modal-header h3 {
+    color: #e0e0e0;
+}
+
+.dark-mode .modal-body p {
+    color: #b0b0b0;
+}
+
+.dark-mode .btn-secondary {
+    background: rgba(60, 60, 60, 0.8);
+    color: #e0e0e0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .btn-secondary:hover {
+    background: rgba(60, 60, 60, 1);
+}
+
+/* Toast Dark Mode */
+.dark-mode .toast {
+    background: rgba(40, 40, 40, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Icon adjustments for dark mode */
+.dark-mode .theme-btn .fa-moon {
+    display: none;
+}
+
+.dark-mode .theme-btn .fa-sun {
+    display: inline-block;
+}
+
+.theme-btn .fa-sun {
+    display: none;
+}
+
+/* Add sun icon when not in dark mode (this will be toggled by JS) */
+body:not(.dark-mode) .theme-btn .fa-moon {
+    display: inline-block;
+}
+
+/* Loading overlay dark mode */
+.dark-mode .loading-overlay {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* Progress fill dark mode (keep bright for visibility) */
+.dark-mode .progress-fill {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+}
