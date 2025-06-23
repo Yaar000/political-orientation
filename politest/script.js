@@ -433,16 +433,6 @@ function displayResult(result) {
         </div>
         <h2 class="result-title">${resultInfo.title[currentLanguage] || resultInfo.title.ko}</h2>
         <p class="result-description">${resultInfo.description[currentLanguage] || resultInfo.description.ko}</p>
-        <div class="result-score">
-            <div class="score-item">
-                <div class="score-value">${result.score}</div>
-                <div class="score-label">${translations[currentLanguage].totalScore || '총점'}</div>
-            </div>
-            <div class="score-item">
-                <div class="score-value">${Math.round((result.score / 30) * 100)}%</div>
-                <div class="score-label">${translations[currentLanguage].progressiveScore || '진보 성향'}</div>
-            </div>
-        </div>
     `;
     
     resultCard.innerHTML = resultHTML;
@@ -563,10 +553,10 @@ function displayStatistics(stats) {
     };
     
     const languageNames = {
-        'ko': '한국어',
-        'en': 'English',
-        'jp': '日本語',
-        'cn': '中文'
+        'ko': 'KO',
+        'en': 'EN',
+        'jp': 'JP',
+        'cn': 'CN'
     };
     
     let html = `
