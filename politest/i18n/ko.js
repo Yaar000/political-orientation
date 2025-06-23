@@ -105,12 +105,7 @@ const ko_translations = {
     darkMode: '다크 모드',
     lightMode: '라이트 모드',
     
-    // Statistics
-    statsBtnText: '통계 보기',
-    statsTitle: '테스트 통계',
-    totalParticipants: '총 테스트 참여자',
-    resultDistribution: '정치 성향별 분포',
-    languageDistribution: '언어별 참여자'
+
 };
 
 // Export for use in other files

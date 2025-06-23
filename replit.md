@@ -94,10 +94,10 @@ This is a multilingual political orientation test web application that helps use
 
 - June 23, 2025. Initial setup
 - June 23, 2025. Design updates: Removed background gradients for simple white design, updated theme and language controls, removed result type previews from main page and other results from result page
-- June 23, 2025. Database integration: Added PostgreSQL database with user and test result storage, statistics viewing functionality, and Node.js server with API endpoints
+- June 23, 2025. Database removal: Removed PostgreSQL database, statistics functionality, and Node.js server. Switched to simple Python HTTP server for static file serving only
 
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
 Design preferences: Simple white background, no gradients, clean minimal design
-UI preferences: Language selection using button abbreviations (KO, EN, JP, CN), no score display on result page, no dark mode functionality
+UI preferences: Language selection using button abbreviations (KO, EN, JP, CN), no score display on result page, no dark mode functionality, no database or statistics features

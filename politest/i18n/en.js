@@ -105,12 +105,7 @@ const en_translations = {
     darkMode: 'Dark Mode',
     lightMode: 'Light Mode',
     
-    // Statistics
-    statsBtnText: 'View Statistics',
-    statsTitle: 'Test Statistics',
-    totalParticipants: 'Total Test Participants',
-    resultDistribution: 'Political Orientation Distribution',
-    languageDistribution: 'Participants by Language'
+
 };
 
 // Export for use in other files
