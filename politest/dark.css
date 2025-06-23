@@ -177,6 +177,67 @@ body.dark-mode {
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* Statistics Dark Mode */
+.dark-mode .stats-content {
+    background: #2d3748;
+    border: 1px solid #4a5568;
+}
+
+.dark-mode .stats-header {
+    border-bottom: 1px solid #4a5568;
+}
+
+.dark-mode .stats-header h3 {
+    color: #e0e0e0;
+}
+
+.dark-mode .close-stats-btn {
+    color: #a0aec0;
+}
+
+.dark-mode .close-stats-btn:hover {
+    background: #4a5568;
+    color: #e0e0e0;
+}
+
+.dark-mode .stats-item h4 {
+    color: #e0e0e0;
+}
+
+.dark-mode .stats-value {
+    color: #63b3ed;
+}
+
+.dark-mode .stats-bar-label {
+    color: #e0e0e0;
+}
+
+.dark-mode .stats-bar-container {
+    background: #4a5568;
+}
+
+.dark-mode .stats-bar-text {
+    color: #e0e0e0;
+}
+
+.dark-mode .stats-lang-item {
+    background: #4a5568;
+    border: 1px solid #718096;
+}
+
+.dark-mode .stats-lang-name {
+    color: #e0e0e0;
+}
+
+.dark-mode .stats-lang-count {
+    color: #63b3ed;
+}
+
+.dark-mode .stats-loading,
+.dark-mode .stats-error {
+    color: #a0aec0;
+}
+
 /* Icon adjustments for dark mode */
 .dark-mode .theme-btn .fa-moon {
     display: none;

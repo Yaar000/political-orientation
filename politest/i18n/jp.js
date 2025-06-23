@@ -103,7 +103,14 @@ const jp_translations = {
     languageSelect: '言語選択',
     themeToggle: 'テーマ切り替え',
     darkMode: 'ダークモード',
-    lightMode: 'ライトモード'
+    lightMode: 'ライトモード',
+    
+    // Statistics
+    statsBtnText: '統計を見る',
+    statsTitle: 'テスト統計',
+    totalParticipants: '総テスト参加者',
+    resultDistribution: '政治傾向別分布',
+    languageDistribution: '言語別参加者'
 };
 
 // Export for use in other files

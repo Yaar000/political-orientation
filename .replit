@@ -21,11 +21,11 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd politest && python -m http.server 5000"
+args = "cd politest && node server.js"
 waitForPort = 5000
 
 [deployment]
-run = ["sh", "-c", "cd politest && python -m http.server 5000"]
+run = ["sh", "-c", "cd politest && node server.js"]
 
 [[ports]]
 localPort = 5000

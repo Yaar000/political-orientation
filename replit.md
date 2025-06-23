@@ -94,6 +94,7 @@ This is a multilingual political orientation test web application that helps use
 
 - June 23, 2025. Initial setup
 - June 23, 2025. Design updates: Removed background gradients for simple white design, updated theme and language controls, removed result type previews from main page and other results from result page
+- June 23, 2025. Database integration: Added PostgreSQL database with user and test result storage, statistics viewing functionality, and Node.js server with API endpoints
 
 ## User Preferences
 

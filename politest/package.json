@@ -1,0 +1,25 @@
+{
+  "name": "political-orientation-test",
+  "version": "1.0.0",
+  "description": "A multilingual political orientation test web application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "pg": "^8.11.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "political",
+    "orientation",
+    "test",
+    "multilingual",
+    "survey"
+  ],
+  "author": "Political Test App",
+  "license": "MIT"
+}

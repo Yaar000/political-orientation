@@ -103,7 +103,14 @@ const cn_translations = {
     languageSelect: '语言选择',
     themeToggle: '主题切换',
     darkMode: '深色模式',
-    lightMode: '浅色模式'
+    lightMode: '浅色模式',
+    
+    // Statistics
+    statsBtnText: '查看统计',
+    statsTitle: '测试统计',
+    totalParticipants: '总测试参与者',
+    resultDistribution: '政治倾向分布',
+    languageDistribution: '语言参与者分布'
 };
 
 // Export for use in other files
