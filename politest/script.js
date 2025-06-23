@@ -135,8 +135,7 @@ function initializeIndexPage() {
 }
 
 function startTest() {
-    const userName = document.getElementById('userName').value.trim();
-    currentUser = userName || translations[currentLanguage].defaultName || '익명';
+    currentUser = translations[currentLanguage].defaultName || '익명';
     
     // Prepare questions
     if (typeof questionsData !== 'undefined') {
@@ -462,7 +461,7 @@ function setupShareButtons() {
 
 // Share Functions
 function shareToKakao(text, url) {
-    const kakaoUrl = `https://story.kakao.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+    const kakaoUrl = `https://talk.kakao.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
     window.open(kakaoUrl, '_blank', 'width=600,height=600');
 }
 

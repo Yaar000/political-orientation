@@ -95,6 +95,8 @@ This is a multilingual political orientation test web application that helps use
 - June 23, 2025. Initial setup
 - June 23, 2025. Design updates: Removed background gradients for simple white design, updated theme and language controls, removed result type previews from main page and other results from result page
 - June 23, 2025. Database removal: Removed PostgreSQL database, statistics functionality, and Node.js server. Switched to simple Python HTTP server for static file serving only
+- June 23, 2025. Back button functionality: Changed back button to go to previous question instead of home screen, with proper progress tracking
+- June 23, 2025. UI improvements: Changed KakaoTalk sharing from Story to Messenger, removed name input from first screen
 
 ## User Preferences
 
