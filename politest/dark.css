@@ -22,16 +22,21 @@ body.dark-mode {
     color: white;
 }
 
-.dark-mode .theme-btn {
+/* Dark Mode Button in Dark Mode */
+.dark-mode .dark-mode-btn {
     background: transparent;
-    border-color: #3b82f6;
-    color: #3b82f6;
+    border-color: #fbbf24;
+    color: #fbbf24;
 }
 
-.dark-mode .theme-btn:hover {
-    background: #3b82f6;
-    color: white;
+.dark-mode .dark-mode-btn:hover {
+    background: #fbbf24;
+    color: #1a1a1a;
     transform: scale(1.1);
+}
+
+.dark-mode .dark-mode-btn:focus {
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.25);
 }
 
 .dark-mode .intro-card {

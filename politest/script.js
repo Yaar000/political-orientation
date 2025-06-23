@@ -57,26 +57,30 @@ function getCurrentPage() {
 // User Preferences
 function loadUserPreferences() {
     const savedLanguage = localStorage.getItem('politest_language');
-    const savedTheme = localStorage.getItem('politest_theme');
+    const savedDarkMode = localStorage.getItem('politest_darkmode');
     
     if (savedLanguage && ['ko', 'en', 'jp', 'cn'].includes(savedLanguage)) {
         currentLanguage = savedLanguage;
     }
     
-    if (savedTheme === 'dark') {
+    if (savedDarkMode === 'enabled') {
         isDarkMode = true;
         document.body.classList.add('dark-mode');
         document.getElementById('dark-theme').disabled = false;
+    } else {
+        isDarkMode = false;
+        document.body.classList.remove('dark-mode');
+        document.getElementById('dark-theme').disabled = true;
     }
     
     // Update UI elements
     updateLanguageSelect();
-    updateThemeButton();
+    updateDarkModeButton();
 }
 
 function saveUserPreferences() {
     localStorage.setItem('politest_language', currentLanguage);
-    localStorage.setItem('politest_theme', isDarkMode ? 'dark' : 'light');
+    localStorage.setItem('politest_darkmode', isDarkMode ? 'enabled' : 'disabled');
 }
 
 // Common Event Listeners
@@ -92,10 +96,10 @@ function setupCommonEventListeners() {
         });
     });
     
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    if (themeToggle) {
-        themeToggle.addEventListener('click', toggleTheme);
+    // Dark mode toggle
+    const darkModeToggle = document.getElementById('themeToggle');
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', toggleDarkMode);
     }
     
     // Prevent back navigation during test
@@ -112,33 +116,36 @@ function setupCommonEventListeners() {
     }
 }
 
-// Theme Management
-function toggleTheme() {
+// Dark Mode Management
+function toggleDarkMode() {
     isDarkMode = !isDarkMode;
     
     if (isDarkMode) {
         document.body.classList.add('dark-mode');
         document.getElementById('dark-theme').disabled = false;
+        localStorage.setItem('politest_darkmode', 'enabled');
     } else {
         document.body.classList.remove('dark-mode');
         document.getElementById('dark-theme').disabled = true;
+        localStorage.setItem('politest_darkmode', 'disabled');
     }
     
-    updateThemeButton();
-    saveUserPreferences();
+    updateDarkModeButton();
 }
 
-function updateThemeButton() {
-    const themeButton = document.getElementById('themeToggle');
-    if (themeButton) {
-        const icon = themeButton.querySelector('i');
+function updateDarkModeButton() {
+    const darkModeButton = document.getElementById('themeToggle');
+    if (darkModeButton) {
+        const icon = darkModeButton.querySelector('i');
         if (icon) {
             if (isDarkMode) {
                 icon.className = 'fas fa-sun';
-                themeButton.setAttribute('title', '라이트 모드로 변경');
+                darkModeButton.setAttribute('title', '라이트 모드로 변경');
+                darkModeButton.setAttribute('aria-label', '라이트 모드로 변경');
             } else {
                 icon.className = 'fas fa-moon';
-                themeButton.setAttribute('title', '다크 모드로 변경');
+                darkModeButton.setAttribute('title', '다크 모드로 변경');
+                darkModeButton.setAttribute('aria-label', '다크 모드로 변경');
             }
         }
     }

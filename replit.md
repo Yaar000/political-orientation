@@ -100,4 +100,4 @@ This is a multilingual political orientation test web application that helps use
 
 Preferred communication style: Simple, everyday language.
 Design preferences: Simple white background, no gradients, clean minimal design
-UI preferences: Icon-only theme toggle button, language selection using abbreviations (KO, EN, JP, CN), no score display on result page
+UI preferences: Icon-only dark mode toggle button (moon/sun icons), language selection using button abbreviations (KO, EN, JP, CN), no score display on result page
