@@ -131,10 +131,12 @@ function updateThemeButton() {
     const themeButton = document.getElementById('themeToggle');
     if (themeButton) {
         const icon = themeButton.querySelector('i');
-        if (isDarkMode) {
-            icon.className = 'fas fa-sun';
-        } else {
-            icon.className = 'fas fa-moon';
+        if (icon) {
+            if (isDarkMode) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
         }
     }
 }
@@ -403,8 +405,8 @@ function displayResult(result) {
     
     resultCard.innerHTML = resultHTML;
     
-    // Display other result types
-    displayOtherResults(resultType);
+    // Remove other results display as requested
+    // displayOtherResults(resultType);
 }
 
 function determineResultType(score) {

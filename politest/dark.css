@@ -1,32 +1,39 @@
 /* Dark Mode Styles */
 body.dark-mode {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    background: #1a1a1a;
     color: #e0e0e0;
 }
 
 .dark-mode .language-selector select {
-    background: rgba(30, 30, 30, 0.9);
+    background: #2d3748;
     color: #e0e0e0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid #4a5568;
 }
 
 .dark-mode .language-selector select:hover {
-    background: rgba(30, 30, 30, 1);
+    background: #4a5568;
+    border-color: #718096;
+}
+
+.dark-mode .language-selector select:focus {
+    border-color: #63b3ed;
+    box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.1);
 }
 
 .dark-mode .theme-btn {
-    background: rgba(30, 30, 30, 0.9);
+    background: #2d3748;
     color: #e0e0e0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid #4a5568;
 }
 
 .dark-mode .theme-btn:hover {
-    background: rgba(30, 30, 30, 1);
+    background: #4a5568;
+    border-color: #718096;
 }
 
 .dark-mode .intro-card {
-    background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #2d3748;
+    border: 1px solid #4a5568;
 }
 
 .dark-mode .intro-card h2 {
@@ -38,42 +45,27 @@ body.dark-mode {
 }
 
 .dark-mode .name-input-group input {
-    background: rgba(30, 30, 30, 0.9);
+    background: #2d3748;
     color: #e0e0e0;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid #4a5568;
 }
 
 .dark-mode .name-input-group input:focus {
-    background: rgba(30, 30, 30, 1);
-    border-color: #667eea;
+    background: #2d3748;
+    border-color: #63b3ed;
+    box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.1);
 }
 
 .dark-mode .name-input-group input::placeholder {
     color: #888;
 }
 
-.dark-mode .result-type {
-    background: rgba(30, 30, 30, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
 
-.dark-mode .result-type:hover {
-    background: rgba(30, 30, 30, 1);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-.dark-mode .result-type h4 {
-    color: #e0e0e0;
-}
-
-.dark-mode .result-type p {
-    color: #b0b0b0;
-}
 
 /* Test Page Dark Mode */
 .dark-mode .test-header {
-    background: rgba(30, 30, 30, 0.95);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: #2d3748;
+    border-bottom: 1px solid #4a5568;
 }
 
 .dark-mode .test-info span {
@@ -81,16 +73,16 @@ body.dark-mode {
 }
 
 .dark-mode .progress-bar {
-    background: rgba(255, 255, 255, 0.2);
+    background: #4a5568;
 }
 
 .dark-mode .progress-text {
-    color: #667eea;
+    color: #63b3ed;
 }
 
 .dark-mode .question-card {
-    background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #2d3748;
+    border: 1px solid #4a5568;
 }
 
 .dark-mode .question-text {
@@ -98,20 +90,20 @@ body.dark-mode {
 }
 
 .dark-mode .answer-btn {
-    background: rgba(40, 40, 40, 0.8);
+    background: #4a5568;
     color: #e0e0e0;
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: #718096;
 }
 
 .dark-mode .answer-btn:hover {
-    background: rgba(102, 126, 234, 0.2);
-    border-color: #667eea;
+    background: #718096;
+    border-color: #63b3ed;
 }
 
 /* Result Page Dark Mode */
 .dark-mode .result-card {
-    background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #2d3748;
+    border: 1px solid #4a5568;
 }
 
 .dark-mode .result-description {
@@ -123,14 +115,14 @@ body.dark-mode {
 }
 
 .dark-mode .share-btn {
-    background: rgba(40, 40, 40, 0.9);
+    background: #4a5568;
     color: #e0e0e0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid #718096;
 }
 
 .dark-mode .share-btn:hover {
-    background: rgba(40, 40, 40, 1);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: #718096;
+    border-color: #a0aec0;
 }
 
 .dark-mode .share-btn.kakao {
@@ -150,18 +142,10 @@ body.dark-mode {
 }
 
 .dark-mode .share-btn.copy {
-    color: #667eea;
+    color: #63b3ed;
 }
 
-.dark-mode .other-type {
-    background: rgba(40, 40, 40, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
 
-.dark-mode .other-type:hover {
-    background: rgba(40, 40, 40, 0.95);
-    border-color: rgba(255, 255, 255, 0.2);
-}
 
 /* Modal Dark Mode */
 .dark-mode .modal-content {
@@ -218,5 +202,5 @@ body:not(.dark-mode) .theme-btn .fa-moon {
 
 /* Progress fill dark mode (keep bright for visibility) */
 .dark-mode .progress-fill {
-    background: linear-gradient(90deg, #667eea, #764ba2);
+    background: #63b3ed;
 }
