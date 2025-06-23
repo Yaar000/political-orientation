@@ -1,6 +1,3 @@
-# Redirect root to index.html for SPA behavior
-/*    /index.html   200
-
-# Handle direct access to pages
+# Handle direct access to pages without extension
 /test    /test.html    200
 /result  /result.html  200
