@@ -272,14 +272,34 @@ function updateProgress() {
     const progressFill = document.getElementById('progressFill');
     const progressText = document.getElementById('progressText');
     
-    const progress = ((currentQuestionIndex) / selectedQuestions.length) * 100;
-    
-    if (progressFill) {
-        progressFill.style.width = `${progress}%`;
+    if (selectedQuestions && selectedQuestions.length > 0) {
+        const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+        
+        if (progressFill) {
+            progressFill.style.width = `${progress}%`;
+        }
+        
+        if (progressText) {
+            const current = currentQuestionIndex + 1;
+            const total = selectedQuestions.length;
+            const separator = translations[currentLanguage] && translations[currentLanguage].progressOf ? translations[currentLanguage].progressOf : ' / ';
+            progressText.textContent = `${current}${separator}${total}`;
+        }
     }
-    
-    if (progressText) {
-        progressText.textContent = `${currentQuestionIndex} / ${selectedQuestions.length}`;
+}
+
+function updateBackButton() {
+    const backButton = document.getElementById('backButton');
+    if (backButton) {
+        if (currentQuestionIndex === 0) {
+            // On first question, back button shows home icon
+            backButton.innerHTML = '<i class="fas fa-home"></i>';
+            backButton.setAttribute('title', '첫 화면으로');
+        } else {
+            // On other questions, back button shows back arrow
+            backButton.innerHTML = '<i class="fas fa-arrow-left"></i>';
+            backButton.setAttribute('title', '이전 질문으로');
+        }
     }
 }
 
