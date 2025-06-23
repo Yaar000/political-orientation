@@ -6,7 +6,7 @@ let selectedQuestions = [];
 let currentQuestionIndex = 0;
 let userAnswers = [];
 let totalScore = 0;
-let isDarkMode = false;
+
 
 // Language Translations
 const translations = {
@@ -57,30 +57,17 @@ function getCurrentPage() {
 // User Preferences
 function loadUserPreferences() {
     const savedLanguage = localStorage.getItem('politest_language');
-    const savedDarkMode = localStorage.getItem('politest_darkmode');
     
     if (savedLanguage && ['ko', 'en', 'jp', 'cn'].includes(savedLanguage)) {
         currentLanguage = savedLanguage;
     }
     
-    if (savedDarkMode === 'enabled') {
-        isDarkMode = true;
-        document.body.classList.add('dark-mode');
-        document.getElementById('dark-theme').disabled = false;
-    } else {
-        isDarkMode = false;
-        document.body.classList.remove('dark-mode');
-        document.getElementById('dark-theme').disabled = true;
-    }
-    
     // Update UI elements
     updateLanguageSelect();
-    updateDarkModeButton();
 }
 
 function saveUserPreferences() {
     localStorage.setItem('politest_language', currentLanguage);
-    localStorage.setItem('politest_darkmode', isDarkMode ? 'enabled' : 'disabled');
 }
 
 // Common Event Listeners
@@ -96,11 +83,7 @@ function setupCommonEventListeners() {
         });
     });
     
-    // Dark mode toggle
-    const darkModeToggle = document.getElementById('themeToggle');
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', toggleDarkMode);
-    }
+
     
     // Prevent back navigation during test
     if (getCurrentPage() === 'test') {
@@ -116,40 +99,7 @@ function setupCommonEventListeners() {
     }
 }
 
-// Dark Mode Management
-function toggleDarkMode() {
-    isDarkMode = !isDarkMode;
-    
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-        document.getElementById('dark-theme').disabled = false;
-        localStorage.setItem('politest_darkmode', 'enabled');
-    } else {
-        document.body.classList.remove('dark-mode');
-        document.getElementById('dark-theme').disabled = true;
-        localStorage.setItem('politest_darkmode', 'disabled');
-    }
-    
-    updateDarkModeButton();
-}
 
-function updateDarkModeButton() {
-    const darkModeButton = document.getElementById('themeToggle');
-    if (darkModeButton) {
-        const icon = darkModeButton.querySelector('i');
-        if (icon) {
-            if (isDarkMode) {
-                icon.className = 'fas fa-sun';
-                darkModeButton.setAttribute('title', '라이트 모드로 변경');
-                darkModeButton.setAttribute('aria-label', '라이트 모드로 변경');
-            } else {
-                icon.className = 'fas fa-moon';
-                darkModeButton.setAttribute('title', '다크 모드로 변경');
-                darkModeButton.setAttribute('aria-label', '다크 모드로 변경');
-            }
-        }
-    }
-}
 
 function updateLanguageSelect() {
     const langButtons = document.querySelectorAll('.lang-btn');
