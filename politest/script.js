@@ -135,13 +135,17 @@ function initializeIndexPage() {
 }
 
 function startTest() {
-    currentUser = translations[currentLanguage].defaultName || '익명';
+    currentUser = translations[currentLanguage] && translations[currentLanguage].defaultName ? translations[currentLanguage].defaultName : '익명';
+    
+    console.log('Starting test:', { questionsData: typeof questionsData, currentUser });
     
     // Prepare questions
-    if (typeof questionsData !== 'undefined') {
+    if (typeof questionsData !== 'undefined' && questionsData && questionsData.length > 0) {
         questions = questionsData;
         selectedQuestions = selectRandomQuestions(questions, 15);
         shuffleArray(selectedQuestions);
+        
+        console.log('Questions prepared:', { totalQuestions: questions.length, selectedCount: selectedQuestions.length });
         
         // Save test data
         localStorage.setItem('politest_user', currentUser);
@@ -149,8 +153,13 @@ function startTest() {
         localStorage.setItem('politest_answers', JSON.stringify([]));
         localStorage.setItem('politest_current_index', '0');
         
+        console.log('Data saved to localStorage');
+        
         // Navigate to test page
         window.location.href = 'test.html';
+    } else {
+        console.error('Questions data not available:', typeof questionsData);
+        alert('질문 데이터를 불러올 수 없습니다. 페이지를 새로고침 해보세요.');
     }
 }
 
@@ -162,25 +171,41 @@ function initializeTestPage() {
     const answersJson = localStorage.getItem('politest_answers');
     const currentIndex = localStorage.getItem('politest_current_index');
     
+    console.log('Test page initialization:', { questionsJson, answersJson, currentIndex });
+    
     if (!questionsJson) {
+        console.log('No questions data found, redirecting to index');
         // Redirect back to start if no test data
         window.location.href = 'index.html';
         return;
     }
     
-    selectedQuestions = JSON.parse(questionsJson);
-    userAnswers = answersJson ? JSON.parse(answersJson) : [];
-    currentQuestionIndex = currentIndex ? parseInt(currentIndex) : 0;
-    
-    // Set up test page event listeners
-    setupTestEventListeners();
-    
-    // Set up modal event listeners
-    setupModalEventListeners();
-    
-    // Display current question
-    displayQuestion();
-    updateProgress();
+    try {
+        selectedQuestions = JSON.parse(questionsJson);
+        userAnswers = answersJson ? JSON.parse(answersJson) : [];
+        currentQuestionIndex = currentIndex ? parseInt(currentIndex) : 0;
+        
+        console.log('Parsed data:', { selectedQuestions, userAnswers, currentQuestionIndex });
+        
+        // Set up test page event listeners
+        setupTestEventListeners();
+        
+        // Set up modal event listeners
+        setupModalEventListeners();
+        
+        // Display current question with a small delay to ensure DOM is ready
+        setTimeout(() => {
+            displayQuestion();
+            updateProgress();
+        }, 100);
+    } catch (error) {
+        console.error('Error parsing test data:', error);
+        // Clear corrupted data and redirect
+        localStorage.removeItem('politest_questions');
+        localStorage.removeItem('politest_answers');
+        localStorage.removeItem('politest_current_index');
+        window.location.href = 'index.html';
+    }
 }
 
 function setupTestEventListeners() {
@@ -191,12 +216,22 @@ function setupTestEventListeners() {
 }
 
 function displayQuestion() {
+    console.log('displayQuestion called:', { currentQuestionIndex, selectedQuestions });
+    
+    if (!selectedQuestions || selectedQuestions.length === 0) {
+        console.error('No questions available');
+        window.location.href = 'index.html';
+        return;
+    }
+    
     if (currentQuestionIndex >= selectedQuestions.length) {
         finishTest();
         return;
     }
     
     const question = selectedQuestions[currentQuestionIndex];
+    console.log('Current question:', question);
+    
     const questionCard = document.getElementById('questionCard');
     const questionNumber = document.getElementById('questionNumber');
     const questionText = document.getElementById('questionText');
@@ -204,25 +239,30 @@ function displayQuestion() {
     
     // Update question content
     if (questionNumber) {
-        const questionLabel = translations[currentLanguage].questionLabel || '질문';
+        const questionLabel = translations[currentLanguage] && translations[currentLanguage].questionLabel ? translations[currentLanguage].questionLabel : '질문';
         questionNumber.textContent = `${questionLabel} ${currentQuestionIndex + 1}`;
     }
     
-    if (questionText) {
-        questionText.textContent = question.question[currentLanguage] || question.question.ko;
+    if (questionText && question && question.question) {
+        const questionContent = question.question[currentLanguage] || question.question.ko || '질문을 불러올 수 없습니다.';
+        questionText.textContent = questionContent;
+        console.log('Question text set:', questionContent);
     }
     
     // Clear and populate answers
-    if (answersContainer) {
+    if (answersContainer && question && question.answers) {
         answersContainer.innerHTML = '';
         
         question.answers.forEach((answer, index) => {
             const answerBtn = document.createElement('button');
             answerBtn.className = 'answer-btn';
-            answerBtn.textContent = answer.text[currentLanguage] || answer.text.ko;
+            const answerText = answer.text[currentLanguage] || answer.text.ko || `답변 ${index + 1}`;
+            answerBtn.textContent = answerText;
             answerBtn.addEventListener('click', () => selectAnswer(index, answer.score));
             answersContainer.appendChild(answerBtn);
         });
+        
+        console.log('Answers populated:', question.answers.length);
     }
     
     // Animate question entry
