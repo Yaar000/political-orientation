@@ -529,7 +529,6 @@ function goToPreviousQuestion() {
         // Display the previous question
         displayQuestion();
         updateProgress();
-        updateBackButton();
     } else {
         // If on first question, show confirmation to exit
         showExitConfirmation();
