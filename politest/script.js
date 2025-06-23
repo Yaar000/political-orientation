@@ -196,9 +196,14 @@ function initializeTestPage() {
         // Display current question with a small delay to ensure DOM is ready
         setTimeout(() => {
             console.log('About to display question after timeout');
+            console.log('Available data:', { 
+                questionsData: typeof questionsData, 
+                selectedQuestions: selectedQuestions ? selectedQuestions.length : 'none',
+                currentQuestionIndex 
+            });
             displayQuestion();
             updateProgress();
-        }, 500);
+        }, 1000);
     } catch (error) {
         console.error('Error parsing test data:', error);
         // Clear corrupted data and redirect
@@ -217,10 +222,15 @@ function setupTestEventListeners() {
 }
 
 function displayQuestion() {
-    console.log('displayQuestion called:', { currentQuestionIndex, selectedQuestions });
+    console.log('displayQuestion called:', { 
+        currentQuestionIndex, 
+        selectedQuestions: selectedQuestions ? selectedQuestions.length : 'undefined',
+        firstQuestion: selectedQuestions ? selectedQuestions[0] : 'none'
+    });
     
     if (!selectedQuestions || selectedQuestions.length === 0) {
-        console.error('No questions available');
+        console.error('No questions available, redirecting to index');
+        alert('질문 데이터가 없습니다. 다시 시도해주세요.');
         window.location.href = 'index.html';
         return;
     }
