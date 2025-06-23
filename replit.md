@@ -13,7 +13,7 @@ This is a multilingual political orientation test web application that helps use
 - **Progressive Enhancement**: Works without JavaScript for basic functionality
 
 ### Internationalization (i18n)
-- **4 Language Support**: Korean (default), English, Japanese, and Chinese
+- **3 Language Support**: Korean (default), English, and Japanese
 - **Modular Translation System**: Separate JavaScript files for each language in `/i18n/` directory
 - **Dynamic Language Switching**: Real-time language changes without page reload
 - **Fallback Mechanism**: Defaults to Korean if translation missing
@@ -97,6 +97,7 @@ This is a multilingual political orientation test web application that helps use
 - June 23, 2025. Database removal: Removed PostgreSQL database, statistics functionality, and Node.js server. Switched to simple Python HTTP server for static file serving only
 - June 23, 2025. Back button functionality: Changed back button to go to previous question instead of home screen, with proper progress tracking
 - June 23, 2025. UI improvements: Changed KakaoTalk sharing from Story to Messenger, removed name input from first screen
+- June 23, 2025. Language support: Removed Chinese language support, now supports Korean, English, and Japanese only
 
 ## User Preferences
 
