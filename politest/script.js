@@ -135,8 +135,10 @@ function updateThemeButton() {
         if (icon) {
             if (isDarkMode) {
                 icon.className = 'fas fa-sun';
+                themeButton.setAttribute('title', '라이트 모드로 변경');
             } else {
                 icon.className = 'fas fa-moon';
+                themeButton.setAttribute('title', '다크 모드로 변경');
             }
         }
     }
