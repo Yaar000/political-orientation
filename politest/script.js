@@ -176,6 +176,9 @@ function initializeTestPage() {
     // Set up test page event listeners
     setupTestEventListeners();
     
+    // Set up modal event listeners
+    setupModalEventListeners();
+    
     // Display current question
     displayQuestion();
     updateProgress();
@@ -184,19 +187,7 @@ function initializeTestPage() {
 function setupTestEventListeners() {
     const backButton = document.getElementById('backButton');
     if (backButton) {
-        backButton.addEventListener('click', showBackConfirmation);
-    }
-    
-    // Modal buttons
-    const modalCancel = document.getElementById('modalCancel');
-    const modalConfirm = document.getElementById('modalConfirm');
-    
-    if (modalCancel) {
-        modalCancel.addEventListener('click', hideBackConfirmation);
-    }
-    
-    if (modalConfirm) {
-        modalConfirm.addEventListener('click', confirmExit);
+        backButton.addEventListener('click', goToPreviousQuestion);
     }
 }
 
@@ -240,6 +231,9 @@ function displayQuestion() {
         questionCard.classList.remove('exit');
         questionCard.classList.add('active');
     }
+    
+    // Update back button state
+    updateBackButton();
 }
 
 function selectAnswer(answerIndex, score) {
@@ -518,17 +512,55 @@ function showToast(message) {
 }
 
 // Modal Functions
-function showBackConfirmation() {
+function goToPreviousQuestion() {
+    if (currentQuestionIndex > 0) {
+        // Go back to previous question
+        currentQuestionIndex--;
+        
+        // Remove the answer for the current question if it exists
+        if (userAnswers.length > currentQuestionIndex) {
+            userAnswers.splice(currentQuestionIndex, 1);
+        }
+        
+        // Update localStorage
+        localStorage.setItem('politest_current_index', currentQuestionIndex.toString());
+        localStorage.setItem('politest_answers', JSON.stringify(userAnswers));
+        
+        // Display the previous question
+        displayQuestion();
+        updateProgress();
+        updateBackButton();
+    } else {
+        // If on first question, show confirmation to exit
+        showExitConfirmation();
+    }
+}
+
+function showExitConfirmation() {
     const modal = document.getElementById('backModal');
     if (modal) {
         modal.classList.add('active');
     }
 }
 
-function hideBackConfirmation() {
+function hideExitConfirmation() {
     const modal = document.getElementById('backModal');
     if (modal) {
         modal.classList.remove('active');
+    }
+}
+
+function setupModalEventListeners() {
+    // Modal buttons
+    const modalCancel = document.getElementById('modalCancel');
+    const modalConfirm = document.getElementById('modalConfirm');
+    
+    if (modalCancel) {
+        modalCancel.addEventListener('click', hideExitConfirmation);
+    }
+    
+    if (modalConfirm) {
+        modalConfirm.addEventListener('click', confirmExit);
     }
 }
 
