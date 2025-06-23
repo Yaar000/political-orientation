@@ -326,7 +326,7 @@ function finishTest() {
         localStorage.removeItem('politest_answers');
         localStorage.removeItem('politest_current_index');
         
-        window.location.href = '/result.html';
+        window.location.href = 'result.html';
     }, 2000);
 }
 
