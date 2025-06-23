@@ -98,6 +98,7 @@ This is a multilingual political orientation test web application that helps use
 - June 23, 2025. Back button functionality: Changed back button to go to previous question instead of home screen, with proper progress tracking
 - June 23, 2025. UI improvements: Changed KakaoTalk sharing from Story to Messenger, removed name input from first screen
 - June 23, 2025. Language support: Removed Chinese language support, now supports Korean, English, and Japanese only
+- June 23, 2025. Cloudflare optimization: Added headers, redirects, SEO meta tags, relative paths, offline handling, and performance optimizations for Cloudflare Pages deployment
 
 ## User Preferences
 

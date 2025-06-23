@@ -163,8 +163,8 @@ function initializeTestPage() {
     const currentIndex = localStorage.getItem('politest_current_index');
     
     if (!questionsJson) {
-        // Redirect back to start if no test data
-        window.location.href = 'index.html';
+        // Redirect back to start if no test data - use relative path
+        window.location.href = './index.html';
         return;
     }
     
@@ -326,7 +326,7 @@ function finishTest() {
         localStorage.removeItem('politest_answers');
         localStorage.removeItem('politest_current_index');
         
-        window.location.href = 'result.html';
+        window.location.href = './result.html';
     }, 2000);
 }
 
@@ -461,17 +461,23 @@ function setupShareButtons() {
 
 // Share Functions
 function shareToKakao(text, url) {
-    const kakaoUrl = `https://talk.kakao.com/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+    // Use current domain for sharing if no URL provided
+    const shareUrl = url || window.location.origin;
+    const kakaoUrl = `https://talk.kakao.com/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
     window.open(kakaoUrl, '_blank', 'width=600,height=600');
 }
 
 function shareToLine(text, url) {
-    const lineUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+    // Use current domain for sharing if no URL provided
+    const shareUrl = url || window.location.origin;
+    const lineUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
     window.open(lineUrl, '_blank', 'width=600,height=600');
 }
 
 function shareToWhatsapp(text, url) {
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+    // Use current domain for sharing if no URL provided
+    const shareUrl = url || window.location.origin;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + shareUrl)}`;
     window.open(whatsappUrl, '_blank');
 }
 
@@ -588,8 +594,8 @@ function confirmExit() {
     localStorage.removeItem('politest_answers');
     localStorage.removeItem('politest_current_index');
     
-    // Navigate back to start
-    window.location.href = 'index.html';
+    // Navigate back to start - use relative path
+    window.location.href = './index.html';
 }
 
 // Utility Functions
