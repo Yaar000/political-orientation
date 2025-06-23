@@ -150,7 +150,7 @@ function startTest() {
         localStorage.setItem('politest_current_index', '0');
         
         // Navigate to test page
-        window.location.href = '/test.html';
+        window.location.href = 'test.html';
     }
 }
 
@@ -164,7 +164,7 @@ function initializeTestPage() {
     
     if (!questionsJson) {
         // Redirect back to start if no test data
-        window.location.href = '/index.html';
+        window.location.href = 'index.html';
         return;
     }
     
@@ -420,7 +420,7 @@ function setupResultEventListeners() {
     if (restartButton) {
         restartButton.addEventListener('click', function() {
             localStorage.removeItem('politest_result');
-            window.location.href = '/index.html';
+            window.location.href = 'index.html';
         });
     }
     
@@ -595,7 +595,7 @@ function confirmExit() {
     localStorage.removeItem('politest_current_index');
     
     // Navigate back to start
-    window.location.href = '/index.html';
+    window.location.href = 'index.html';
 }
 
 // Utility Functions
