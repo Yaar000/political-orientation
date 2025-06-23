@@ -4,31 +4,34 @@ body.dark-mode {
     color: #e0e0e0;
 }
 
-.dark-mode .language-selector select {
+.dark-mode .lang-btn {
     background: #2d3748;
+    border-color: #4a5568;
     color: #e0e0e0;
-    border: 2px solid #4a5568;
 }
 
-.dark-mode .language-selector select:hover {
-    background: #4a5568;
-    border-color: #718096;
+.dark-mode .lang-btn:hover {
+    background: #374151;
+    border-color: #6b7280;
+    transform: translateY(-1px);
 }
 
-.dark-mode .language-selector select:focus {
-    border-color: #63b3ed;
-    box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.1);
+.dark-mode .lang-btn.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
 }
 
 .dark-mode .theme-btn {
-    background: #2d3748;
-    color: #e0e0e0;
-    border: 2px solid #4a5568;
+    background: transparent;
+    border-color: #3b82f6;
+    color: #3b82f6;
 }
 
 .dark-mode .theme-btn:hover {
-    background: #4a5568;
-    border-color: #718096;
+    background: #3b82f6;
+    color: white;
+    transform: scale(1.1);
 }
 
 .dark-mode .intro-card {

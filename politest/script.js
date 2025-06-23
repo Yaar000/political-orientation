@@ -81,15 +81,16 @@ function saveUserPreferences() {
 
 // Common Event Listeners
 function setupCommonEventListeners() {
-    // Language selection
-    const languageSelect = document.getElementById('languageSelect');
-    if (languageSelect) {
-        languageSelect.addEventListener('change', function() {
-            currentLanguage = this.value;
-            saveUserPreferences();
+    // Language selection buttons
+    const langButtons = document.querySelectorAll('.lang-btn');
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            currentLanguage = this.dataset.lang;
             applyTranslations();
+            updateLanguageSelect();
+            saveUserPreferences();
         });
-    }
+    });
     
     // Theme toggle
     const themeToggle = document.getElementById('themeToggle');
@@ -142,10 +143,13 @@ function updateThemeButton() {
 }
 
 function updateLanguageSelect() {
-    const languageSelect = document.getElementById('languageSelect');
-    if (languageSelect) {
-        languageSelect.value = currentLanguage;
-    }
+    const langButtons = document.querySelectorAll('.lang-btn');
+    langButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.lang === currentLanguage) {
+            btn.classList.add('active');
+        }
+    });
 }
 
 // Translation System
