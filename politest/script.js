@@ -195,9 +195,10 @@ function initializeTestPage() {
         
         // Display current question with a small delay to ensure DOM is ready
         setTimeout(() => {
+            console.log('About to display question after timeout');
             displayQuestion();
             updateProgress();
-        }, 100);
+        }, 500);
     } catch (error) {
         console.error('Error parsing test data:', error);
         // Clear corrupted data and redirect
@@ -245,32 +246,46 @@ function displayQuestion() {
     
     if (questionText && question && question.question) {
         const questionContent = question.question[currentLanguage] || question.question.ko || '질문을 불러올 수 없습니다.';
-        questionText.textContent = questionContent;
+        console.log('Setting question text to:', questionContent);
+        questionText.innerHTML = questionContent;
         questionText.style.display = 'block';
-        console.log('Question text set:', questionContent);
+        questionText.style.visibility = 'visible';
+        console.log('Question text element after update:', questionText.textContent);
+    } else {
+        console.error('Question text update failed:', { questionText, question });
     }
     
     // Clear and populate answers
     if (answersContainer && question && question.answers) {
+        console.log('Populating answers container');
         answersContainer.innerHTML = '';
         answersContainer.style.display = 'block';
+        answersContainer.style.visibility = 'visible';
         
         question.answers.forEach((answer, index) => {
             const answerBtn = document.createElement('button');
             answerBtn.className = 'answer-btn';
             const answerText = answer.text[currentLanguage] || answer.text.ko || `답변 ${index + 1}`;
             answerBtn.textContent = answerText;
+            answerBtn.style.display = 'block';
+            answerBtn.style.visibility = 'visible';
             answerBtn.addEventListener('click', () => selectAnswer(index, answer.score));
             answersContainer.appendChild(answerBtn);
+            console.log('Added answer button:', answerText);
         });
         
-        console.log('Answers populated:', question.answers.length);
+        console.log('Answers populated:', question.answers.length, 'Container children:', answersContainer.children.length);
+    } else {
+        console.error('Answer population failed:', { answersContainer, question });
     }
     
     // Animate question entry
     if (questionCard) {
         questionCard.classList.remove('exit');
         questionCard.classList.add('active');
+        questionCard.style.display = 'block';
+        questionCard.style.visibility = 'visible';
+        console.log('Question card made visible');
     }
     
     // Update back button state
