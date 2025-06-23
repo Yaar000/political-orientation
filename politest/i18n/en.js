@@ -12,7 +12,7 @@ const en_translations = {
     featureShare: 'Shareable results',
     
     // Input and buttons
-    nameLabel: 'Enter your name (optional)',
+
     startBtnText: 'Start Test',
     defaultName: 'Anonymous',
     

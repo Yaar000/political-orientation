@@ -12,7 +12,7 @@ const cn_translations = {
     featureShare: '可分享结果',
     
     // Input and buttons
-    nameLabel: '请输入您的姓名（可选）',
+
     startBtnText: '开始测试',
     defaultName: '匿名',
     

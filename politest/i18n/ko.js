@@ -12,7 +12,7 @@ const ko_translations = {
     featureShare: '결과 공유 가능',
     
     // Input and buttons
-    nameLabel: '이름을 입력해주세요 (선택사항)',
+
     startBtnText: '테스트 시작하기',
     defaultName: '익명',
     

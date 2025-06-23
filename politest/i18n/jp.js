@@ -12,7 +12,7 @@ const jp_translations = {
     featureShare: '結果をシェア可能',
     
     // Input and buttons
-    nameLabel: 'お名前を入力してください（任意）',
+
     startBtnText: 'テストを開始',
     defaultName: '匿名',
     
