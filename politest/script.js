@@ -155,8 +155,9 @@ function startTest() {
         
         console.log('Data saved to localStorage');
         
-        // Navigate to new test page
-        window.location.href = 'test-new.html';
+        // Navigate to new test page with cache busting
+        const timestamp = Date.now();
+        window.location.href = 'test-new.html?v=' + timestamp;
     } else {
         console.error('Questions data not available:', typeof questionsData);
         alert('질문 데이터를 불러올 수 없습니다. 페이지를 새로고침 해보세요.');

@@ -47,7 +47,9 @@
     </div>
 
     <script>
-    console.log('=== NEW TEST PAGE LOADED ===');
+    // Add cache busting
+    const CACHE_VERSION = Date.now();
+    console.log('=== NEW TEST PAGE LOADED v' + CACHE_VERSION + ' ===');
     
     let currentQuestionIndex = 0;
     let selectedQuestions = [];
@@ -143,7 +145,19 @@
             }
             
             console.log('Setting question text to:', questionContent);
-            questionText.innerHTML = questionContent;
+            
+            // Multiple methods to ensure content is set
+            questionText.innerHTML = '';
+            questionText.textContent = questionContent;
+            questionText.innerText = questionContent;
+            
+            // Force DOM update
+            setTimeout(() => {
+                if (questionText.textContent !== questionContent) {
+                    questionText.textContent = questionContent;
+                }
+            }, 50);
+            
             console.log('Question text element now contains:', questionText.textContent);
         }
         

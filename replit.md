@@ -100,6 +100,7 @@ This is a multilingual political orientation test web application that helps use
 - June 23, 2025. Language support: Removed Chinese language support, now supports Korean, English, and Japanese only
 - June 23, 2025. Cloudflare optimization: Added headers, redirects, SEO meta tags, relative paths, offline handling, and performance optimizations for Cloudflare Pages deployment
 - June 24, 2025. Language support fixes: Fixed "[object Object]" display issue by properly handling multilingual question/answer data structure, implemented complete language switching across all pages (questions, answers, results)
+- June 24, 2025. Cloudflare Pages deployment fixes: Added cache-busting headers, redirects configuration, and multiple DOM update methods to resolve caching issues on Cloudflare Pages deployment
 
 ## User Preferences
 
