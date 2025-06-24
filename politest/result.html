@@ -17,16 +17,36 @@
         <!-- Result Section -->
         <div class="result-section">
             <div class="result-card" id="resultCard">
-                <!-- Result content will be dynamically inserted -->
+                <div class="result-content">
+                    <div class="result-icon" id="resultIcon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h1 class="result-title" id="resultTitle">결과를 로딩중입니다...</h1>
+                    <p class="result-description" id="resultDescription">결과 설명을 불러오고 있습니다...</p>
+                    
+                    <div class="result-characteristics">
+                        <h3>주요 특징</h3>
+                        <ul id="resultCharacteristics">
+                            <!-- Characteristics will be inserted here -->
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Action Buttons -->
         <div class="action-section">
+            <div class="restart-section">
+                <button class="btn btn-primary" id="restartBtn">
+                    <i class="fas fa-redo"></i>
+                    <span>다시 테스트하기</span>
+                </button>
+            </div>
+            
             <div class="share-section">
                 <h3 id="shareTitle">결과 공유하기</h3>
                 <div class="share-buttons">
-                    <button class="share-btn kakao" id="shareKakao">
+                    <button class="share-btn kakao" id="shareKakao" data-platform="kakao">
                         <i class="fas fa-comment"></i>
                         <span>카카오톡</span>
                     </button>
@@ -161,9 +181,9 @@
         
         // Score ranges for 15 questions (0-30 points)
         if (score <= 6) return 'conservative_authoritarian';
-        if (score <= 12) return 'conservative_liberal';
+        if (score <= 12) return 'conservative_liberal'; 
         if (score <= 18) return 'moderate';
-        if (score <= 24) return 'progressive_liberal';
+        if (score <= 24) return 'liberal_progressive';
         return 'progressive_authoritarian';
     }
     
@@ -174,15 +194,23 @@
         const resultDescription = document.getElementById('resultDescription');
         const resultCharacteristics = document.getElementById('resultCharacteristics');
         
+        console.log('DOM elements found:', {
+            title: !!resultTitle,
+            description: !!resultDescription, 
+            characteristics: !!resultCharacteristics
+        });
+        
         if (resultTitle && resultDetails) {
             const title = safeGetText(resultDetails.title, currentLanguage, 'Result');
-            resultTitle.textContent = title;
+            resultTitle.innerHTML = '';
+            resultTitle.appendChild(document.createTextNode(title));
             console.log('Result title set:', title);
         }
         
         if (resultDescription && resultDetails) {
             const description = safeGetText(resultDetails.description, currentLanguage, 'No description available');
-            resultDescription.textContent = description;
+            resultDescription.innerHTML = '';
+            resultDescription.appendChild(document.createTextNode(description));
             console.log('Result description set:', description);
         }
         
@@ -200,11 +228,20 @@
             
             console.log('Characteristics to display:', characteristics);
             
-            characteristics.forEach(characteristic => {
-                const li = document.createElement('li');
-                li.appendChild(document.createTextNode(characteristic));
-                resultCharacteristics.appendChild(li);
-            });
+            if (characteristics && characteristics.length > 0) {
+                characteristics.forEach(characteristic => {
+                    const li = document.createElement('li');
+                    li.appendChild(document.createTextNode(characteristic));
+                    resultCharacteristics.appendChild(li);
+                });
+            }
+        }
+        
+        // Force visibility
+        const resultCard = document.getElementById('resultCard');
+        if (resultCard) {
+            resultCard.style.display = 'block';
+            resultCard.style.visibility = 'visible';
         }
     }
     
