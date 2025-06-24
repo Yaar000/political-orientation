@@ -74,6 +74,214 @@
     <script src="i18n/ko.js"></script>
     <script src="i18n/en.js"></script>
     <script src="i18n/jp.js"></script>
-    <script src="script.js"></script>
+    <script>
+    // Result page specific script
+    console.log('=== RESULT PAGE LOADED ===');
+    
+    let currentLanguage = 'ko';
+    
+    // Safe text extraction function (same as test page)
+    function safeGetText(obj, lang, fallback) {
+        if (!obj) return fallback || 'Missing text';
+        
+        if (typeof obj === 'string') {
+            return obj;
+        }
+        
+        if (typeof obj === 'object') {
+            if (obj[lang] && typeof obj[lang] === 'string') {
+                return obj[lang];
+            }
+            if (obj.ko && typeof obj.ko === 'string') {
+                return obj.ko;
+            }
+            if (obj.en && typeof obj.en === 'string') {
+                return obj.en;
+            }
+            for (let key in obj) {
+                if (typeof obj[key] === 'string') {
+                    return obj[key];
+                }
+            }
+        }
+        
+        return fallback || 'Text unavailable';
+    }
+    
+    function initializeResultPage() {
+        console.log('Initializing result page');
+        
+        // Load current language
+        currentLanguage = localStorage.getItem('politest_language') || 'ko';
+        console.log('Current language:', currentLanguage);
+        
+        // Load result data
+        const resultData = localStorage.getItem('politest_result');
+        if (!resultData) {
+            console.error('No result data found');
+            alert('결과 데이터가 없습니다. 다시 테스트해주세요.');
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        let result;
+        try {
+            result = JSON.parse(resultData);
+            console.log('Result data loaded:', result);
+        } catch (e) {
+            console.error('Error parsing result data:', e);
+            alert('결과 데이터 오류. 다시 테스트해주세요.');
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        // Determine result type
+        const resultType = determineResultType(result.score);
+        console.log('Result type determined:', resultType);
+        
+        // Get result details
+        if (typeof resultsData !== 'undefined' && resultsData[resultType]) {
+            const resultDetails = resultsData[resultType];
+            console.log('Result details:', resultDetails);
+            displayResult(resultDetails);
+        } else {
+            console.error('Result type not found in resultsData:', resultType);
+            displayFallbackResult(result.score);
+        }
+        
+        // Apply translations to page elements
+        applyResultTranslations();
+        
+        // Setup event listeners
+        setupResultEventListeners();
+    }
+    
+    function determineResultType(score) {
+        console.log('Determining result type for score:', score);
+        
+        // Score ranges for 15 questions (0-30 points)
+        if (score <= 6) return 'conservative_authoritarian';
+        if (score <= 12) return 'conservative_liberal';
+        if (score <= 18) return 'moderate';
+        if (score <= 24) return 'progressive_liberal';
+        return 'progressive_authoritarian';
+    }
+    
+    function displayResult(resultDetails) {
+        console.log('Displaying result:', resultDetails);
+        
+        const resultTitle = document.getElementById('resultTitle');
+        const resultDescription = document.getElementById('resultDescription');
+        const resultCharacteristics = document.getElementById('resultCharacteristics');
+        
+        if (resultTitle && resultDetails) {
+            const title = safeGetText(resultDetails.title, currentLanguage, 'Result');
+            resultTitle.textContent = title;
+            console.log('Result title set:', title);
+        }
+        
+        if (resultDescription && resultDetails) {
+            const description = safeGetText(resultDetails.description, currentLanguage, 'No description available');
+            resultDescription.textContent = description;
+            console.log('Result description set:', description);
+        }
+        
+        if (resultCharacteristics && resultDetails && resultDetails.characteristics) {
+            resultCharacteristics.innerHTML = '';
+            
+            let characteristics = [];
+            if (Array.isArray(resultDetails.characteristics)) {
+                characteristics = resultDetails.characteristics;
+            } else if (resultDetails.characteristics[currentLanguage]) {
+                characteristics = resultDetails.characteristics[currentLanguage];
+            } else if (resultDetails.characteristics.ko) {
+                characteristics = resultDetails.characteristics.ko;
+            }
+            
+            console.log('Characteristics to display:', characteristics);
+            
+            characteristics.forEach(characteristic => {
+                const li = document.createElement('li');
+                li.appendChild(document.createTextNode(characteristic));
+                resultCharacteristics.appendChild(li);
+            });
+        }
+    }
+    
+    function displayFallbackResult(score) {
+        console.log('Displaying fallback result for score:', score);
+        
+        const resultTitle = document.getElementById('resultTitle');
+        const resultDescription = document.getElementById('resultDescription');
+        
+        if (resultTitle) {
+            const title = currentLanguage === 'ko' ? '정치 성향 결과' :
+                         currentLanguage === 'en' ? 'Political Orientation Result' :
+                         currentLanguage === 'jp' ? '政治的傾向結果' : '정치 성향 결과';
+            resultTitle.textContent = title;
+        }
+        
+        if (resultDescription) {
+            const description = currentLanguage === 'ko' ? `귀하의 점수는 ${score}점입니다.` :
+                               currentLanguage === 'en' ? `Your score is ${score} points.` :
+                               currentLanguage === 'jp' ? `あなたのスコアは${score}点です。` : `귀하의 점수는 ${score}점입니다.`;
+            resultDescription.textContent = description;
+        }
+    }
+    
+    function applyResultTranslations() {
+        // Apply translations to static elements
+        const elements = document.querySelectorAll('[data-translate]');
+        elements.forEach(element => {
+            const key = element.getAttribute('data-translate');
+            if (typeof translations !== 'undefined' && translations[currentLanguage] && translations[currentLanguage][key]) {
+                element.textContent = translations[currentLanguage][key];
+            }
+        });
+    }
+    
+    function setupResultEventListeners() {
+        // Restart test button
+        const restartBtn = document.getElementById('restartBtn');
+        if (restartBtn) {
+            restartBtn.addEventListener('click', () => {
+                localStorage.removeItem('politest_result');
+                localStorage.removeItem('politest_answers');
+                localStorage.removeItem('politest_current_index');
+                window.location.href = 'index.html';
+            });
+        }
+        
+        // Share buttons (existing functionality from script.js)
+        setupShareButtons();
+    }
+    
+    function setupShareButtons() {
+        // Copy existing share functionality or simplified version
+        const shareButtons = document.querySelectorAll('.share-btn');
+        shareButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const platform = button.getAttribute('data-platform');
+                const url = window.location.origin;
+                const text = currentLanguage === 'ko' ? '정치 성향 테스트 결과를 확인해보세요!' :
+                            currentLanguage === 'en' ? 'Check out my political orientation test result!' :
+                            currentLanguage === 'jp' ? '政治的傾向テストの結果をチェックしてください！' : '정치 성향 테스트 결과를 확인해보세요!';
+                
+                if (platform === 'copy') {
+                    navigator.clipboard.writeText(url).then(() => {
+                        console.log('URL copied to clipboard');
+                    });
+                }
+                // Add other sharing platforms as needed
+            });
+        });
+    }
+    
+    // Initialize when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Result page DOM loaded');
+        setTimeout(initializeResultPage, 100);
+    });
+    </script>
 </body>
 </html>
