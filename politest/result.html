@@ -16,7 +16,7 @@
 
         <!-- Result Section -->
         <div class="result-section" style="padding: 40px 20px;">
-            <div class="result-card" id="resultCard" style="background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; display: block; visibility: visible;"
+            <div class="result-card" id="resultCard" style="background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; display: block; visibility: visible;">
                 <div class="result-content" style="padding: 30px; text-align: center;">
                     <div class="result-icon" id="resultIcon" style="font-size: 3rem; color: #007bff; margin-bottom: 20px;">
                         <i class="fas fa-chart-pie"></i>
@@ -43,11 +43,27 @@
                 </button>
             </div>
             
-            <div class="share-section">
-                <h3 id="shareTitle">결과 공유하기</h3>
-                <div class="share-buttons">
-                    <button class="share-btn kakao" id="shareKakao" data-platform="kakao">
+            <div class="share-section" style="text-align: center; margin: 20px 0;">
+                <h3 id="shareTitle" style="color: #333; margin-bottom: 20px;">결과 공유하기</h3>
+                <div class="share-buttons" style="display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <button class="share-btn kakao" id="shareKakao" data-platform="kakao" style="background: #fee500; color: #333; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
                         <i class="fas fa-comment"></i>
+                        <span>카카오톡</span>
+                    </button>
+                    <button class="share-btn line" id="shareLine" data-platform="line" style="background: #00c300; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                        <i class="fab fa-line"></i>
+                        <span>Line</span>
+                    </button>
+                    <button class="share-btn whatsapp" id="shareWhatsapp" data-platform="whatsapp" style="background: #25d366; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </button>
+                    <button class="share-btn copy" id="shareCopy" data-platform="copy" style="background: #6c757d; color: white; border: none; padding: 10px 15px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-link"></i>
+                        <span>링크 복사</span>
+                    </button>
+                </div>
+            </div>
                         <span>카카오톡</span>
                     </button>
                     <button class="share-btn line" id="shareLine">
@@ -309,24 +325,56 @@
     }
     
     function setupShareButtons() {
-        // Copy existing share functionality or simplified version
         const shareButtons = document.querySelectorAll('.share-btn');
         shareButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 const platform = button.getAttribute('data-platform');
-                const url = window.location.origin;
+                const url = window.location.href;
                 const text = currentLanguage === 'ko' ? '정치 성향 테스트 결과를 확인해보세요!' :
                             currentLanguage === 'en' ? 'Check out my political orientation test result!' :
                             currentLanguage === 'jp' ? '政治的傾向テストの結果をチェックしてください！' : '정치 성향 테스트 결과를 확인해보세요!';
                 
                 if (platform === 'copy') {
-                    navigator.clipboard.writeText(url).then(() => {
-                        console.log('URL copied to clipboard');
-                    });
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(url).then(() => {
+                            showToast('링크가 복사되었습니다!');
+                        });
+                    } else {
+                        // Fallback for older browsers
+                        const textArea = document.createElement('textarea');
+                        textArea.value = url;
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(textArea);
+                        showToast('링크가 복사되었습니다!');
+                    }
+                } else if (platform === 'kakao') {
+                    const kakaoUrl = `https://sharer.kakao.com/talk/friends/?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+                    window.open(kakaoUrl, '_blank');
+                } else if (platform === 'line') {
+                    const lineUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
+                    window.open(lineUrl, '_blank');
+                } else if (platform === 'whatsapp') {
+                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
+                    window.open(whatsappUrl, '_blank');
                 }
-                // Add other sharing platforms as needed
             });
         });
+    }
+    
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        if (toast && toastMessage) {
+            toastMessage.textContent = message;
+            toast.style.display = 'flex';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 2000);
+        } else {
+            alert(message);
+        }
     }
     
     // Initialize when page loads
