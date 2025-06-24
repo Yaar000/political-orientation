@@ -47,16 +47,47 @@
     </div>
 
     <script>
-    // Add cache busting
-    const CACHE_VERSION = Date.now();
-    console.log('=== NEW TEST PAGE LOADED v' + CACHE_VERSION + ' ===');
+    // Cloudflare-optimized version
+    console.log('=== CLOUDFLARE TEST PAGE ===');
     
     let currentQuestionIndex = 0;
     let selectedQuestions = [];
     let userAnswers = [];
     
+    // Safe text extraction function
+    function safeGetText(obj, lang, fallback) {
+        if (!obj) return fallback || 'Missing text';
+        
+        if (typeof obj === 'string') {
+            return obj;
+        }
+        
+        if (typeof obj === 'object') {
+            // Try current language first
+            if (obj[lang] && typeof obj[lang] === 'string') {
+                return obj[lang];
+            }
+            // Try Korean as fallback
+            if (obj.ko && typeof obj.ko === 'string') {
+                return obj.ko;
+            }
+            // Try English as fallback
+            if (obj.en && typeof obj.en === 'string') {
+                return obj.en;
+            }
+            // Try any string property
+            for (let key in obj) {
+                if (typeof obj[key] === 'string') {
+                    return obj[key];
+                }
+            }
+        }
+        
+        return fallback || 'Text unavailable';
+    }
+    
     function initTest() {
-        console.log('=== INITIALIZING NEW TEST ===');
+        console.log('=== INITIALIZING CLOUDFLARE TEST ===');
         
         // Get current language
         const currentLanguage = localStorage.getItem('politest_language') || 'ko';
@@ -64,20 +95,30 @@
         
         // Load questions from localStorage
         const savedQuestions = localStorage.getItem('politest_questions');
-        if (savedQuestions) {
-            try {
-                selectedQuestions = JSON.parse(savedQuestions);
-                console.log('Loaded questions:', selectedQuestions.length);
-                console.log('First question sample:', selectedQuestions[0]);
-            } catch (e) {
-                console.error('Error parsing questions:', e);
-                alert('질문 데이터 오류가 발생했습니다. 다시 시작해주세요.');
-                window.location.href = 'index.html';
-                return;
-            }
-        } else {
+        if (!savedQuestions) {
             console.error('No questions found in localStorage');
             alert('질문 데이터가 없습니다. 다시 시작해주세요.');
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        try {
+            selectedQuestions = JSON.parse(savedQuestions);
+            console.log('Questions loaded:', selectedQuestions.length);
+            
+            // Validate first question structure
+            if (selectedQuestions.length > 0) {
+                const firstQ = selectedQuestions[0];
+                console.log('First question validation:');
+                console.log('- Has question property:', !!firstQ.question);
+                console.log('- Question type:', typeof firstQ.question);
+                console.log('- Has answers property:', !!firstQ.answers);
+                console.log('- Answers type:', typeof firstQ.answers);
+                console.log('- Answers length:', firstQ.answers ? firstQ.answers.length : 0);
+            }
+        } catch (e) {
+            console.error('Error parsing questions:', e);
+            alert('질문 데이터 파싱 오류. 다시 시작해주세요.');
             window.location.href = 'index.html';
             return;
         }
@@ -97,8 +138,6 @@
             currentQuestionIndex = parseInt(savedIndex) || 0;
         }
         
-        console.log('Starting from question index:', currentQuestionIndex);
-        
         displayQuestion();
         updateProgress();
     }
@@ -115,7 +154,8 @@
         const question = selectedQuestions[currentQuestionIndex];
         const currentLanguage = localStorage.getItem('politest_language') || 'ko';
         
-        console.log('Question object:', question);
+        console.log('Raw question object:', JSON.stringify(question));
+        console.log('Question.question property:', JSON.stringify(question.question));
         console.log('Language:', currentLanguage);
         
         // Update question number
@@ -126,69 +166,40 @@
                                  currentLanguage === 'jp' ? '質問' : '질문';
             const numberText = `${questionLabel} ${currentQuestionIndex + 1}`;
             questionNumber.textContent = numberText;
-            console.log('Question number set to:', numberText);
+            console.log('Question number updated:', numberText);
         }
         
-        // Update question text
+        // Update question text using safe extraction
         const questionText = document.getElementById('questionText');
-        if (questionText && question && question.question) {
-            let questionContent;
+        if (questionText && question) {
+            const questionContent = safeGetText(question.question, currentLanguage, 'Question not available');
+            console.log('Extracted question text:', questionContent);
             
-            if (typeof question.question === 'string') {
-                questionContent = question.question;
-            } else if (question.question[currentLanguage]) {
-                questionContent = question.question[currentLanguage];
-            } else if (question.question.ko) {
-                questionContent = question.question.ko;
-            } else {
-                questionContent = 'Question not available';
-            }
-            
-            console.log('Setting question text to:', questionContent);
-            
-            // Multiple methods to ensure content is set
+            // Force clear and set
             questionText.innerHTML = '';
-            questionText.textContent = questionContent;
-            questionText.innerText = questionContent;
+            questionText.appendChild(document.createTextNode(questionContent));
             
-            // Force DOM update
-            setTimeout(() => {
-                if (questionText.textContent !== questionContent) {
-                    questionText.textContent = questionContent;
-                }
-            }, 50);
-            
-            console.log('Question text element now contains:', questionText.textContent);
+            console.log('Final question element text:', questionText.textContent);
         }
         
-        // Update answers
+        // Update answers using safe extraction
         const answersContainer = document.getElementById('answersContainer');
         if (answersContainer && question && question.answers) {
             answersContainer.innerHTML = '';
             
             question.answers.forEach((answer, index) => {
-                let answerText;
-                
-                if (typeof answer.text === 'string') {
-                    answerText = answer.text;
-                } else if (answer.text[currentLanguage]) {
-                    answerText = answer.text[currentLanguage];
-                } else if (answer.text.ko) {
-                    answerText = answer.text.ko;
-                } else {
-                    answerText = `Answer ${index + 1}`;
-                }
+                const answerText = safeGetText(answer.text, currentLanguage, `Answer ${index + 1}`);
+                console.log(`Answer ${index}:`, answerText);
                 
                 const button = document.createElement('button');
                 button.className = 'answer-btn';
-                button.textContent = answerText;
+                button.appendChild(document.createTextNode(answerText));
                 button.onclick = () => selectAnswer(index, answer.score);
                 
                 answersContainer.appendChild(button);
-                console.log('Added answer button:', answerText);
             });
             
-            console.log('Total answer buttons added:', question.answers.length);
+            console.log('Total answers added:', question.answers.length);
         }
     }
     
@@ -257,8 +268,8 @@
     
     // Start test when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM loaded - starting new test page');
-        setTimeout(initTest, 100);
+        console.log('DOM loaded - starting Cloudflare test');
+        setTimeout(initTest, 200);
     });
     </script>
 </body>

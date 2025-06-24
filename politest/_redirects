@@ -1,3 +1,4 @@
-/test /test-new.html 200
-/test.html /test-new.html 200
-/test-simple.html /test-new.html 200
+/test /test-cloudflare.html 200
+/test.html /test-cloudflare.html 200
+/test-simple.html /test-cloudflare.html 200
+/test-new.html /test-cloudflare.html 200

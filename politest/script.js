@@ -155,9 +155,9 @@ function startTest() {
         
         console.log('Data saved to localStorage');
         
-        // Navigate to new test page with cache busting
+        // Navigate to cloudflare-optimized test page
         const timestamp = Date.now();
-        window.location.href = 'test-new.html?v=' + timestamp;
+        window.location.href = 'test-cloudflare.html?v=' + timestamp;
     } else {
         console.error('Questions data not available:', typeof questionsData);
         alert('질문 데이터를 불러올 수 없습니다. 페이지를 새로고침 해보세요.');
