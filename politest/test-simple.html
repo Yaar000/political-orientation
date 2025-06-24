@@ -130,8 +130,17 @@
         // Update question text
         const questionText = document.getElementById('questionText');
         if (questionText && question) {
-            questionText.textContent = question.question;
-            console.log('Question text updated');
+            // Handle both simple string and object structure
+            let questionContent;
+            if (typeof question.question === 'string') {
+                questionContent = question.question;
+            } else if (question.question && question.question.ko) {
+                questionContent = question.question.ko;
+            } else {
+                questionContent = '질문을 불러올 수 없습니다.';
+            }
+            questionText.textContent = questionContent;
+            console.log('Question text updated:', questionContent);
         }
         
         // Update answers
@@ -142,9 +151,21 @@
             question.answers.forEach((answer, index) => {
                 const button = document.createElement('button');
                 button.className = 'answer-btn';
-                button.textContent = answer.text;
+                
+                // Handle both simple string and object structure
+                let answerText;
+                if (typeof answer.text === 'string') {
+                    answerText = answer.text;
+                } else if (answer.text && answer.text.ko) {
+                    answerText = answer.text.ko;
+                } else {
+                    answerText = `답변 ${index + 1}`;
+                }
+                
+                button.textContent = answerText;
                 button.onclick = () => selectAnswer(index, answer.score);
                 answersContainer.appendChild(button);
+                console.log('Added answer:', answerText);
             });
             
             console.log('Answers updated:', question.answers.length);

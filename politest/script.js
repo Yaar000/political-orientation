@@ -155,7 +155,7 @@ function startTest() {
         
         console.log('Data saved to localStorage');
         
-        // Navigate to test page - try simplified version first
+        // Navigate to test page
         window.location.href = 'test-simple.html';
     } else {
         console.error('Questions data not available:', typeof questionsData);
