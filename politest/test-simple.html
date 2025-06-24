@@ -83,6 +83,7 @@
             try {
                 selectedQuestions = JSON.parse(savedQuestions);
                 console.log('Loaded questions from localStorage:', selectedQuestions.length);
+                console.log('First question structure:', selectedQuestions[0]);
             } catch (e) {
                 console.error('Error parsing saved questions:', e);
                 selectedQuestions = simpleQuestions;
@@ -119,12 +120,18 @@
         }
         
         const question = selectedQuestions[currentQuestionIndex];
-        console.log('Current question:', question);
+        console.log('Current question structure:', question);
+        
+        // Get current language from localStorage
+        const currentLanguage = localStorage.getItem('politest_language') || 'ko';
         
         // Update question number
         const questionNumber = document.getElementById('questionNumber');
         if (questionNumber) {
-            questionNumber.textContent = `질문 ${currentQuestionIndex + 1}`;
+            const questionLabel = currentLanguage === 'ko' ? '질문' : 
+                                 currentLanguage === 'en' ? 'Question' : 
+                                 currentLanguage === 'jp' ? '質問' : '질문';
+            questionNumber.textContent = `${questionLabel} ${currentQuestionIndex + 1}`;
         }
         
         // Update question text
@@ -134,13 +141,13 @@
             let questionContent;
             if (typeof question.question === 'string') {
                 questionContent = question.question;
-            } else if (question.question && question.question.ko) {
-                questionContent = question.question.ko;
+            } else if (question.question && typeof question.question === 'object') {
+                questionContent = question.question[currentLanguage] || question.question.ko || question.question.en || 'Question unavailable';
             } else {
-                questionContent = '질문을 불러올 수 없습니다.';
+                questionContent = currentLanguage === 'ko' ? '질문을 불러올 수 없습니다.' : 'Question unavailable';
             }
             questionText.textContent = questionContent;
-            console.log('Question text updated:', questionContent);
+            console.log('Question text updated:', questionContent, 'Language:', currentLanguage);
         }
         
         // Update answers
@@ -156,16 +163,16 @@
                 let answerText;
                 if (typeof answer.text === 'string') {
                     answerText = answer.text;
-                } else if (answer.text && answer.text.ko) {
-                    answerText = answer.text.ko;
+                } else if (answer.text && typeof answer.text === 'object') {
+                    answerText = answer.text[currentLanguage] || answer.text.ko || answer.text.en || `Answer ${index + 1}`;
                 } else {
-                    answerText = `답변 ${index + 1}`;
+                    answerText = currentLanguage === 'ko' ? `답변 ${index + 1}` : `Answer ${index + 1}`;
                 }
                 
                 button.textContent = answerText;
                 button.onclick = () => selectAnswer(index, answer.score);
                 answersContainer.appendChild(button);
-                console.log('Added answer:', answerText);
+                console.log('Added answer:', answerText, 'Language:', currentLanguage);
             });
             
             console.log('Answers updated:', question.answers.length);
