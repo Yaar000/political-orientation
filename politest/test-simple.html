@@ -134,11 +134,16 @@
             questionNumber.textContent = `${questionLabel} ${currentQuestionIndex + 1}`;
         }
         
-        // Update question text
+        // Update question text with forced refresh
         const questionText = document.getElementById('questionText');
         if (questionText && question) {
+            // Clear existing content first
+            questionText.textContent = '';
+            questionText.innerHTML = '';
+            
             // Handle both simple string and object structure
-            let questionContent;
+            let questionContent = '';
+            
             if (typeof question.question === 'string') {
                 questionContent = question.question;
             } else if (question.question && typeof question.question === 'object') {
@@ -146,21 +151,29 @@
             } else {
                 questionContent = currentLanguage === 'ko' ? '질문을 불러올 수 없습니다.' : 'Question unavailable';
             }
+            
+            // Force update with both methods
             questionText.textContent = questionContent;
-            console.log('Question text updated:', questionContent, 'Language:', currentLanguage);
+            questionText.setAttribute('data-content', questionContent);
+            
+            console.log('Question text force updated:', questionContent, 'Language:', currentLanguage);
+            console.log('Element content check:', questionText.textContent);
         }
         
-        // Update answers
+        // Update answers with forced refresh
         const answersContainer = document.getElementById('answersContainer');
         if (answersContainer && question && question.answers) {
+            // Force clear container
             answersContainer.innerHTML = '';
+            answersContainer.textContent = '';
             
             question.answers.forEach((answer, index) => {
                 const button = document.createElement('button');
                 button.className = 'answer-btn';
                 
                 // Handle both simple string and object structure
-                let answerText;
+                let answerText = '';
+                
                 if (typeof answer.text === 'string') {
                     answerText = answer.text;
                 } else if (answer.text && typeof answer.text === 'object') {
@@ -169,13 +182,17 @@
                     answerText = currentLanguage === 'ko' ? `답변 ${index + 1}` : `Answer ${index + 1}`;
                 }
                 
+                // Force update button text
                 button.textContent = answerText;
+                button.setAttribute('data-text', answerText);
                 button.onclick = () => selectAnswer(index, answer.score);
+                
                 answersContainer.appendChild(button);
-                console.log('Added answer:', answerText, 'Language:', currentLanguage);
+                console.log('Added answer button:', answerText, 'Language:', currentLanguage);
             });
             
-            console.log('Answers updated:', question.answers.length);
+            console.log('Answers force updated:', question.answers.length);
+            console.log('Container children count:', answersContainer.children.length);
         }
     }
     

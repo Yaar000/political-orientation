@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Debug Test Page</h1>
+    
+    <div class="debug-section">
+        <h3>Language Test</h3>
+        <button onclick="setLanguage('ko')">Korean</button>
+        <button onclick="setLanguage('en')">English</button>
+        <button onclick="setLanguage('jp')">Japanese</button>
+        <p>Current Language: <span id="currentLang">ko</span></p>
+    </div>
+    
+    <div class="debug-section">
+        <h3>Question Display Test</h3>
+        <div id="testQuestion">Loading...</div>
+        <div id="testAnswers"></div>
+        <button onclick="loadTestQuestion()">Load Test Question</button>
+    </div>
+    
+    <div class="debug-section">
+        <h3>LocalStorage Check</h3>
+        <button onclick="checkStorage()">Check LocalStorage</button>
+        <div id="storageInfo"></div>
+    </div>
+    
+    <script>
+    function setLanguage(lang) {
+        localStorage.setItem('politest_language', lang);
+        document.getElementById('currentLang').textContent = lang;
+        loadTestQuestion();
+    }
+    
+    function loadTestQuestion() {
+        const currentLanguage = localStorage.getItem('politest_language') || 'ko';
+        
+        const testQuestion = {
+            question: {
+                ko: "테스트 질문입니다",
+                en: "This is a test question",
+                jp: "これはテスト質問です"
+            },
+            answers: [
+                {
+                    text: {
+                        ko: "첫 번째 답변",
+                        en: "First answer",
+                        jp: "最初の答え"
+                    }
+                },
+                {
+                    text: {
+                        ko: "두 번째 답변",
+                        en: "Second answer", 
+                        jp: "二番目の答え"
+                    }
+                }
+            ]
+        };
+        
+        const questionDiv = document.getElementById('testQuestion');
+        const answersDiv = document.getElementById('testAnswers');
+        
+        // Display question
+        const questionText = testQuestion.question[currentLanguage];
+        questionDiv.textContent = questionText;
+        
+        // Display answers
+        answersDiv.innerHTML = '';
+        testQuestion.answers.forEach((answer, index) => {
+            const button = document.createElement('button');
+            const answerText = answer.text[currentLanguage];
+            button.textContent = answerText;
+            answersDiv.appendChild(button);
+        });
+        
+        console.log('Test question loaded:', questionText);
+        console.log('Language:', currentLanguage);
+    }
+    
+    function checkStorage() {
+        const info = document.getElementById('storageInfo');
+        const questions = localStorage.getItem('politest_questions');
+        const language = localStorage.getItem('politest_language');
+        
+        info.innerHTML = `
+            <p>Language: ${language}</p>
+            <p>Questions stored: ${questions ? 'Yes' : 'No'}</p>
+            <p>Questions count: ${questions ? JSON.parse(questions).length : 0}</p>
+        `;
+    }
+    
+    // Initialize
+    loadTestQuestion();
+    checkStorage();
+    </script>
+</body>
+</html>
