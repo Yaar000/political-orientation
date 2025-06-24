@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정치 성향 테스트</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container test-container">
+        <!-- Header -->
+        <div class="test-header">
+            <div class="test-nav">
+                <button id="backButton" class="nav-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="test-info">
+                    <span>정치 성향 테스트</span>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progressText">1 / 15</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Section -->
+        <div class="question-section">
+            <div class="question-container">
+                <div class="question-card active">
+                    <div class="question-number" id="questionNumber">질문 1</div>
+                    <h2 class="question-text" id="questionText">질문을 로딩중입니다...</h2>
+                    
+                    <div class="answers-container" id="answersContainer">
+                        <!-- Answers will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    console.log('=== NEW TEST PAGE LOADED ===');
+    
+    let currentQuestionIndex = 0;
+    let selectedQuestions = [];
+    let userAnswers = [];
+    
+    function initTest() {
+        console.log('=== INITIALIZING NEW TEST ===');
+        
+        // Get current language
+        const currentLanguage = localStorage.getItem('politest_language') || 'ko';
+        console.log('Current language:', currentLanguage);
+        
+        // Load questions from localStorage
+        const savedQuestions = localStorage.getItem('politest_questions');
+        if (savedQuestions) {
+            try {
+                selectedQuestions = JSON.parse(savedQuestions);
+                console.log('Loaded questions:', selectedQuestions.length);
+                console.log('First question sample:', selectedQuestions[0]);
+            } catch (e) {
+                console.error('Error parsing questions:', e);
+                alert('질문 데이터 오류가 발생했습니다. 다시 시작해주세요.');
+                window.location.href = 'index.html';
+                return;
+            }
+        } else {
+            console.error('No questions found in localStorage');
+            alert('질문 데이터가 없습니다. 다시 시작해주세요.');
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        // Load saved progress
+        const savedAnswers = localStorage.getItem('politest_answers');
+        if (savedAnswers) {
+            try {
+                userAnswers = JSON.parse(savedAnswers);
+            } catch (e) {
+                userAnswers = [];
+            }
+        }
+        
+        const savedIndex = localStorage.getItem('politest_current_index');
+        if (savedIndex) {
+            currentQuestionIndex = parseInt(savedIndex) || 0;
+        }
+        
+        console.log('Starting from question index:', currentQuestionIndex);
+        
+        displayQuestion();
+        updateProgress();
+    }
+    
+    function displayQuestion() {
+        console.log('=== DISPLAYING QUESTION ===');
+        console.log('Question index:', currentQuestionIndex);
+        
+        if (currentQuestionIndex >= selectedQuestions.length) {
+            finishTest();
+            return;
+        }
+        
+        const question = selectedQuestions[currentQuestionIndex];
+        const currentLanguage = localStorage.getItem('politest_language') || 'ko';
+        
+        console.log('Question object:', question);
+        console.log('Language:', currentLanguage);
+        
+        // Update question number
+        const questionNumber = document.getElementById('questionNumber');
+        if (questionNumber) {
+            const questionLabel = currentLanguage === 'ko' ? '질문' : 
+                                 currentLanguage === 'en' ? 'Question' : 
+                                 currentLanguage === 'jp' ? '質問' : '질문';
+            const numberText = `${questionLabel} ${currentQuestionIndex + 1}`;
+            questionNumber.textContent = numberText;
+            console.log('Question number set to:', numberText);
+        }
+        
+        // Update question text
+        const questionText = document.getElementById('questionText');
+        if (questionText && question && question.question) {
+            let questionContent;
+            
+            if (typeof question.question === 'string') {
+                questionContent = question.question;
+            } else if (question.question[currentLanguage]) {
+                questionContent = question.question[currentLanguage];
+            } else if (question.question.ko) {
+                questionContent = question.question.ko;
+            } else {
+                questionContent = 'Question not available';
+            }
+            
+            console.log('Setting question text to:', questionContent);
+            questionText.innerHTML = questionContent;
+            console.log('Question text element now contains:', questionText.textContent);
+        }
+        
+        // Update answers
+        const answersContainer = document.getElementById('answersContainer');
+        if (answersContainer && question && question.answers) {
+            answersContainer.innerHTML = '';
+            
+            question.answers.forEach((answer, index) => {
+                let answerText;
+                
+                if (typeof answer.text === 'string') {
+                    answerText = answer.text;
+                } else if (answer.text[currentLanguage]) {
+                    answerText = answer.text[currentLanguage];
+                } else if (answer.text.ko) {
+                    answerText = answer.text.ko;
+                } else {
+                    answerText = `Answer ${index + 1}`;
+                }
+                
+                const button = document.createElement('button');
+                button.className = 'answer-btn';
+                button.textContent = answerText;
+                button.onclick = () => selectAnswer(index, answer.score);
+                
+                answersContainer.appendChild(button);
+                console.log('Added answer button:', answerText);
+            });
+            
+            console.log('Total answer buttons added:', question.answers.length);
+        }
+    }
+    
+    function selectAnswer(answerIndex, score) {
+        console.log('Answer selected:', answerIndex, 'Score:', score);
+        
+        userAnswers[currentQuestionIndex] = {
+            questionIndex: currentQuestionIndex,
+            answerIndex: answerIndex,
+            score: score
+        };
+        
+        localStorage.setItem('politest_answers', JSON.stringify(userAnswers));
+        currentQuestionIndex++;
+        localStorage.setItem('politest_current_index', currentQuestionIndex.toString());
+        
+        setTimeout(() => {
+            displayQuestion();
+            updateProgress();
+        }, 300);
+    }
+    
+    function updateProgress() {
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        
+        if (progressFill && selectedQuestions.length > 0) {
+            const progress = ((currentQuestionIndex + 1) / selectedQuestions.length) * 100;
+            progressFill.style.width = `${Math.min(progress, 100)}%`;
+        }
+        
+        if (progressText && selectedQuestions.length > 0) {
+            const current = Math.min(currentQuestionIndex + 1, selectedQuestions.length);
+            const total = selectedQuestions.length;
+            progressText.textContent = `${current} / ${total}`;
+        }
+    }
+    
+    function finishTest() {
+        console.log('Test completed');
+        const totalScore = userAnswers.reduce((sum, answer) => sum + answer.score, 0);
+        
+        localStorage.setItem('politest_result', JSON.stringify({
+            score: totalScore,
+            answers: userAnswers,
+            timestamp: Date.now()
+        }));
+        
+        window.location.href = 'result.html';
+    }
+    
+    function goBack() {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            if (userAnswers.length > currentQuestionIndex) {
+                userAnswers.splice(currentQuestionIndex, 1);
+            }
+            localStorage.setItem('politest_current_index', currentQuestionIndex.toString());
+            localStorage.setItem('politest_answers', JSON.stringify(userAnswers));
+            displayQuestion();
+            updateProgress();
+        } else {
+            window.location.href = 'index.html';
+        }
+    }
+    
+    // Start test when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded - starting new test page');
+        setTimeout(initTest, 100);
+    });
+    </script>
+</body>
+</html>
