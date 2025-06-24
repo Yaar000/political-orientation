@@ -15,18 +15,18 @@
         </div>
 
         <!-- Result Section -->
-        <div class="result-section">
-            <div class="result-card" id="resultCard">
-                <div class="result-content">
-                    <div class="result-icon" id="resultIcon">
+        <div class="result-section" style="padding: 40px 20px;">
+            <div class="result-card" id="resultCard" style="background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 800px; margin: 0 auto; display: block; visibility: visible;"
+                <div class="result-content" style="padding: 30px; text-align: center;">
+                    <div class="result-icon" id="resultIcon" style="font-size: 3rem; color: #007bff; margin-bottom: 20px;">
                         <i class="fas fa-chart-pie"></i>
                     </div>
-                    <h1 class="result-title" id="resultTitle">결과를 로딩중입니다...</h1>
-                    <p class="result-description" id="resultDescription">결과 설명을 불러오고 있습니다...</p>
+                    <h1 class="result-title" id="resultTitle" style="font-size: 2rem; font-weight: bold; color: #333; margin-bottom: 20px; line-height: 1.4;">결과를 로딩중입니다...</h1>
+                    <p class="result-description" id="resultDescription" style="font-size: 1.1rem; color: #666; line-height: 1.6; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">결과 설명을 불러오고 있습니다...</p>
                     
-                    <div class="result-characteristics">
-                        <h3>주요 특징</h3>
-                        <ul id="resultCharacteristics">
+                    <div class="result-characteristics" style="text-align: left; max-width: 500px; margin: 0 auto;">
+                        <h3 style="font-size: 1.3rem; color: #333; margin-bottom: 15px; text-align: center;">주요 특징</h3>
+                        <ul id="resultCharacteristics" style="list-style-type: disc; padding-left: 20px; color: #555;">
                             <!-- Characteristics will be inserted here -->
                         </ul>
                     </div>
@@ -36,8 +36,8 @@
 
         <!-- Action Buttons -->
         <div class="action-section">
-            <div class="restart-section">
-                <button class="btn btn-primary" id="restartBtn">
+            <div class="restart-section" style="text-align: center; margin: 30px 0;">
+                <button class="btn btn-primary" id="restartBtn" style="background: #007bff; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
                     <i class="fas fa-redo"></i>
                     <span>다시 테스트하기</span>
                 </button>
@@ -237,11 +237,26 @@
             }
         }
         
-        // Force visibility
+        // Force visibility and ensure content is displayed
         const resultCard = document.getElementById('resultCard');
         if (resultCard) {
             resultCard.style.display = 'block';
             resultCard.style.visibility = 'visible';
+            resultCard.style.opacity = '1';
+        }
+        
+        // Also ensure all content elements are visible
+        if (resultTitle) {
+            resultTitle.style.display = 'block';
+            resultTitle.style.visibility = 'visible';
+        }
+        if (resultDescription) {
+            resultDescription.style.display = 'block';
+            resultDescription.style.visibility = 'visible';
+        }
+        if (resultCharacteristics) {
+            resultCharacteristics.style.display = 'block';
+            resultCharacteristics.style.visibility = 'visible';
         }
     }
     
